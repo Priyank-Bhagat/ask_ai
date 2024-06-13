@@ -1,9 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:ask_ai/view/home_page.dart';
-
-import 'logic/bloc/Edan Ai Bloc/edan_ai_bloc.dart';
 import 'logic/bloc/Internet cubits/internet_cubit.dart';
+import 'logic/bloc/Open Ai Bloc/open_ai_bloc.dart';
 
 void main() {
   runApp(const MyApp());
@@ -21,12 +20,9 @@ class MyApp extends StatelessWidget {
       ),
       home: MultiBlocProvider(
         providers: [
-          BlocProvider(
-            create: (_) => EdanAiBloc(),
-          ),
-          BlocProvider(
-            create: (_) => InternetCubit(),
-          ),
+          BlocProvider(create: (_) => OpenAiBloc()),
+          BlocProvider(create: (_) => InternetCubit()),
+          // BlocProvider(create: (_) => EdanAiBloc()),
         ],
         child: HomePage(),
       ),

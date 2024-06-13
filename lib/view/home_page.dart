@@ -1,15 +1,14 @@
 import 'dart:ui';
-
+import 'package:ask_ai/logic/bloc/Open%20Ai%20Bloc/open_ai_state.dart';
 import 'package:ask_ai/view/widgets/glitch_effect.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/painting.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:loading_animation_widget/loading_animation_widget.dart';
-import '../logic/bloc/Edan Ai Bloc/edan_ai_bloc.dart';
-import '../logic/bloc/Edan Ai Bloc/edan_ai_event.dart';
-import '../logic/bloc/Edan Ai Bloc/edan_ai_state.dart';
 import '../logic/bloc/Internet cubits/internet_cubit.dart';
+import '../logic/bloc/Open Ai Bloc/open_ai_bloc.dart';
+import '../logic/bloc/Open Ai Bloc/open_ai_event.dart';
+
+// Change imports if you've changed AI api, at the moment it's for OpenAi api
 
 class HomePage extends StatefulWidget {
   bool textFieldReadonly = false;
@@ -25,7 +24,7 @@ class _HomePageState extends State<HomePage> {
   @override
   void initState() {
     queryController = TextEditingController();
-    context.read<EdanAiBloc>().add(SendQueryEvent(query: 'Hi'));
+    context.read<OpenAiBloc>().add(SendQueryEvent(query: 'Hi'));
     super.initState();
   }
 
@@ -110,7 +109,7 @@ class _HomePageState extends State<HomePage> {
           padding: const EdgeInsets.all(20.0),
           child: SingleChildScrollView(
             child:
-                BlocBuilder<EdanAiBloc, EdanAiState>(builder: (context, state) {
+                BlocBuilder<OpenAiBloc, OpenAiState>(builder: (context, state) {
               if (state is LoadingState) {
                 return Center(
                   child: LoadingAnimationWidget.staggeredDotsWave(
@@ -130,7 +129,8 @@ class _HomePageState extends State<HomePage> {
                 );
               } else if (state is SuccessState) {
                 return Text(
-                  state.dataResponse!.cohere!.generatedText.toString(),
+                  state.dataResponse!.choices![0].message!.content
+                      .toString(), // EdanAi---> state.dataResponse!.cohere!.generatedText.toString()
                   style: const TextStyle(fontSize: 25, color: Colors.white),
                   textAlign: TextAlign.start,
                 );
@@ -185,7 +185,7 @@ class _HomePageState extends State<HomePage> {
                   onPressed: () {
                     if (queryController.text.isNotEmpty &&
                         !widget.textFieldReadonly) {
-                      context.read<EdanAiBloc>().add(SendQueryEvent(
+                      context.read<OpenAiBloc>().add(SendQueryEvent(
                           query: queryController.text.toString()));
                     }
                     FocusScope.of(context).unfocus();
