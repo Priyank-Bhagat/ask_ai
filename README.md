@@ -4,7 +4,7 @@
 </p>
 
 # ask_ai
-Ask Ai is an AI-powered app that provides instant answers to your questions, enhancing productivity effortlessly. ALSO DOWNLOAD LINK GIVEN BELOW.
+Ask Ai is an AI🤖-powered app that provides instant answers to your 💬questions, enhancing productivity effortlessly. ALSO DOWNLOAD LINK GIVEN BELOW.
 
 ## Demo
 <p> 
