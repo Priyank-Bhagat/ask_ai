@@ -17,7 +17,7 @@ Ask Ai is an AI🤖-powered app that provides instant answers to your 💬questi
 
 Just ask your query to the ai,
 <br>
-👉[Download ](https://mega.nz/file/47FwBC5R#SkmReUeFduyELs6JnMX_2xKygVeSl04clvk3UPlaoxI)👈The Ask Ai App.
+👉[Download ](https://mega.nz/file/YzNkFDST#JBoCz2DSni18RZff4lcvxv4E0ouW39EMa6IkEQGBw-0)👈The Ask Ai App.
 
 ## Getting Started
 
