@@ -13,6 +13,12 @@ Ask Ai is an AI-powered app that provides instant answers to your questions, enh
     <img width="200" src="https://github.com/Priyank-Bhagat/ask_ai/assets/115228605/da36a823-65e7-416f-9314-448450b9be1f" alt="something was here🤔">
 </p>
 
+## Download
+
+Just ask your query to the ai,
+<br>
+👉[Download ](https://mega.nz/file/47FwBC5R#SkmReUeFduyELs6JnMX_2xKygVeSl04clvk3UPlaoxI)👈The Ask Ai App.
+
 ## Getting Started
 
 This project is a starting point for a Flutter application.
