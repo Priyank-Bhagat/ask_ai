@@ -46,8 +46,10 @@ class _HomePageState extends State<HomePage> {
       body: BlocBuilder<InternetCubit, InternetState>(
         builder: (context, state) {
           if (state is InternetGainedState) {
+            widget.textFieldReadonly = false;
             return mainWidget(blurFilter: false);
           } else {
+            widget.textFieldReadonly = false;
             return mainWidget(blurFilter: true);
           }
         },
