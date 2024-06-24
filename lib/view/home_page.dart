@@ -1,12 +1,15 @@
+import 'dart:io';
 import 'dart:ui';
-import 'package:ask_ai/logic/bloc/Open%20Ai%20Bloc/open_ai_state.dart';
+import 'package:ask_ai/logic/bloc/Edan%20Ai%20Bloc/edan_ai_bloc.dart';
+import 'package:ask_ai/logic/bloc/Edan%20Ai%20Bloc/edan_ai_state.dart';
+import 'package:ask_ai/logic/repo/repo_with_media.dart';
+import 'package:ask_ai/view/media_page.dart';
 import 'package:ask_ai/view/widgets/glitch_effect.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:loading_animation_widget/loading_animation_widget.dart';
+import '../logic/bloc/Edan Ai Bloc/edan_ai_event.dart';
 import '../logic/bloc/Internet cubits/internet_cubit.dart';
-import '../logic/bloc/Open Ai Bloc/open_ai_bloc.dart';
-import '../logic/bloc/Open Ai Bloc/open_ai_event.dart';
 
 // Change imports if you've changed AI api, at the moment it's for OpenAi api
 
@@ -24,7 +27,7 @@ class _HomePageState extends State<HomePage> {
   @override
   void initState() {
     queryController = TextEditingController();
-    context.read<OpenAiBloc>().add(SendQueryEvent(query: 'Hi'));
+    context.read<EdanAiBloc>().add(SendQueryEvent(query: 'Hi'));
     super.initState();
   }
 
@@ -111,7 +114,7 @@ class _HomePageState extends State<HomePage> {
           padding: const EdgeInsets.all(20.0),
           child: SingleChildScrollView(
             child:
-                BlocBuilder<OpenAiBloc, OpenAiState>(builder: (context, state) {
+                BlocBuilder<EdanAiBloc, EdanAiState>(builder: (context, state) {
               if (state is LoadingState) {
                 return Center(
                   child: LoadingAnimationWidget.staggeredDotsWave(
@@ -131,7 +134,7 @@ class _HomePageState extends State<HomePage> {
                 );
               } else if (state is SuccessState) {
                 return Text(
-                  state.dataResponse!.choices![0].message!.content
+                  state.dataResponse!.cohere!.generatedText
                       .toString(), // EdanAi---> state.dataResponse!.cohere!.generatedText.toString()
                   style: const TextStyle(fontSize: 25, color: Colors.white),
                   textAlign: TextAlign.start,
@@ -162,7 +165,7 @@ class _HomePageState extends State<HomePage> {
                 readOnly: widget.textFieldReadonly,
                 cursorColor: Colors.white,
                 controller: queryController,
-                autofocus: true,
+                autofocus: false,
                 style: const TextStyle(color: Colors.white, fontSize: 20),
                 decoration: InputDecoration(
                   focusedBorder: OutlineInputBorder(
@@ -187,7 +190,7 @@ class _HomePageState extends State<HomePage> {
                   onPressed: () {
                     if (queryController.text.isNotEmpty &&
                         !widget.textFieldReadonly) {
-                      context.read<OpenAiBloc>().add(SendQueryEvent(
+                      context.read<EdanAiBloc>().add(SendQueryEvent(
                           query: queryController.text.toString()));
                     }
                     FocusScope.of(context).unfocus();
@@ -196,7 +199,95 @@ class _HomePageState extends State<HomePage> {
                     Icons.send,
                     color: Colors.white,
                   )),
-            )
+            ),
+            Padding(
+              padding: const EdgeInsets.all(10.0),
+              child: IconButton(
+                  onPressed: () {
+                    showDialog(
+                        context: context,
+                        builder: (_) {
+                          return AlertDialog(
+                            title: const Text("Chose You're Media"),
+                            actions: [
+                              Padding(
+                                padding: const EdgeInsets.all(18.0),
+                                child: Column(
+                                  children: [
+                                    Row(
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.spaceAround,
+                                      children: [
+                                        IconButton(
+                                          onPressed: () async {
+                                            Map<String, String> outPut =
+                                                await RepoWithMedia()
+                                                    .selectPDFandExtractText();
+                                            if (outPut['Extractedstring'] !=
+                                                '') {
+                                              Navigator.push(
+                                                context,
+                                                MaterialPageRoute(
+                                                  builder: (context) =>
+                                                      MediaPage(
+                                                    queryWithWhat: 'pdf',
+                                                    pdfPath: outPut['Filepath'],
+                                                    pdfExtract: outPut[
+                                                        'Extractedstring'],
+                                                  ),
+                                                ),
+                                              );
+                                            }
+                                          },
+                                          icon: const Icon(
+                                            Icons.picture_as_pdf,
+                                            size: 55,
+                                          ),
+                                        ),
+                                        IconButton(
+                                          onPressed: () async {
+                                            File? imgFile =
+                                                await RepoWithMedia()
+                                                    .imagePicker();
+                                            if (imgFile != null) {
+                                              Navigator.push(
+                                                  context,
+                                                  MaterialPageRoute(
+                                                      builder: (context) =>
+                                                          MediaPage(
+                                                            queryWithWhat:
+                                                                'image',
+                                                            imgFile: imgFile,
+                                                          )));
+                                            }
+                                          },
+                                          icon: const Icon(
+                                            Icons.image,
+                                            size: 55,
+                                          ),
+                                        )
+                                      ],
+                                    ),
+                                    const Row(
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.spaceAround,
+                                      children: [
+                                        Text('PDF'),
+                                        Text('Image'),
+                                      ],
+                                    ),
+                                  ],
+                                ),
+                              )
+                            ],
+                          );
+                        });
+                  },
+                  icon: const Icon(
+                    Icons.perm_media,
+                    color: Colors.white,
+                  )),
+            ),
           ],
         ),
       ),
