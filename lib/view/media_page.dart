@@ -17,7 +17,7 @@ class MediaPage extends StatefulWidget {
   String? pdfPath;
   File? imgFile;
   String queryWithWhat;
-  bool textFieldReadonly = true;
+  bool textFieldReadonly = false;
 
   MediaPage(
       {super.key,
@@ -142,7 +142,7 @@ class _MediaPageState extends State<MediaPage> {
               widget.textFieldReadonly = false;
               return mainWidget(blurFilter: false);
             } else {
-              widget.textFieldReadonly = false;
+              widget.textFieldReadonly = true;
               return mainWidget(blurFilter: true);
             }
           },
@@ -291,15 +291,17 @@ class _MediaPageState extends State<MediaPage> {
               padding: const EdgeInsets.all(10.0),
               child: IconButton(
                   onPressed: () {
-                    if (widget.queryWithWhat == 'pdf') {
-                      context.read<GeminiAiBloc>().add(SendQueryWithPDF(
-                          query: _query.text,
-                          pdfExtract: widget.pdfExtract.toString()));
-                    } else if (widget.queryWithWhat == 'image') {
-                      context.read<GeminiAiBloc>().add(SendQueryWithImage(
-                          query: _query.text, imageFile: widget.imgFile));
+                    if (!widget.textFieldReadonly) {
+                      if (widget.queryWithWhat == 'pdf') {
+                        context.read<GeminiAiBloc>().add(SendQueryWithPDF(
+                            query: _query.text,
+                            pdfExtract: widget.pdfExtract.toString()));
+                      } else if (widget.queryWithWhat == 'image') {
+                        context.read<GeminiAiBloc>().add(SendQueryWithImage(
+                            query: _query.text, imageFile: widget.imgFile));
+                      }
+                      FocusScope.of(context).unfocus();
                     }
-                    FocusScope.of(context).unfocus();
                   },
                   icon: const Icon(
                     Icons.send,

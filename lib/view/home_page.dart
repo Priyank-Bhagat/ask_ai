@@ -52,7 +52,7 @@ class _HomePageState extends State<HomePage> {
             widget.textFieldReadonly = false;
             return mainWidget(blurFilter: false);
           } else {
-            widget.textFieldReadonly = false;
+            widget.textFieldReadonly = true;
             return mainWidget(blurFilter: true);
           }
         },
@@ -204,84 +204,89 @@ class _HomePageState extends State<HomePage> {
               padding: const EdgeInsets.all(10.0),
               child: IconButton(
                   onPressed: () {
-                    showDialog(
-                        context: context,
-                        builder: (_) {
-                          return AlertDialog(
-                            title: const Text("Chose You're Media"),
-                            actions: [
-                              Padding(
-                                padding: const EdgeInsets.all(18.0),
-                                child: Column(
-                                  children: [
-                                    Row(
-                                      mainAxisAlignment:
-                                          MainAxisAlignment.spaceAround,
-                                      children: [
-                                        IconButton(
-                                          onPressed: () async {
-                                            Map<String, String> outPut =
-                                                await RepoWithMedia()
-                                                    .selectPDFandExtractText();
-                                            if (outPut['Extractedstring'] !=
-                                                '') {
-                                              Navigator.push(
-                                                context,
-                                                MaterialPageRoute(
-                                                  builder: (context) =>
-                                                      MediaPage(
-                                                    queryWithWhat: 'pdf',
-                                                    pdfPath: outPut['Filepath'],
-                                                    pdfExtract: outPut[
-                                                        'Extractedstring'],
-                                                  ),
-                                                ),
-                                              );
-                                            }
-                                          },
-                                          icon: const Icon(
-                                            Icons.picture_as_pdf,
-                                            size: 55,
-                                          ),
-                                        ),
-                                        IconButton(
-                                          onPressed: () async {
-                                            File? imgFile =
-                                                await RepoWithMedia()
-                                                    .imagePicker();
-                                            if (imgFile != null) {
-                                              Navigator.push(
-                                                  context,
-                                                  MaterialPageRoute(
+                    if (!widget.textFieldReadonly) {
+                      showDialog(
+                          context: context,
+                          builder: (_) {
+                            return AlertDialog(
+                              title: const Text("Chose You're Media"),
+                              actions: [
+                                Padding(
+                                  padding: const EdgeInsets.all(18.0),
+                                  child: Column(
+                                    children: [
+                                      Row(
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.spaceAround,
+                                        children: [
+                                          IconButton(
+                                            onPressed: () async {
+                                              if (!widget.textFieldReadonly) {
+                                                Map<String, String> outPut =
+                                                    await RepoWithMedia()
+                                                        .selectPDFandExtractText();
+                                                if (outPut['Extractedstring'] !=
+                                                    '') {
+                                                  Navigator.push(
+                                                    context,
+                                                    MaterialPageRoute(
                                                       builder: (context) =>
                                                           MediaPage(
-                                                            queryWithWhat:
-                                                                'image',
-                                                            imgFile: imgFile,
-                                                          )));
-                                            }
-                                          },
-                                          icon: const Icon(
-                                            Icons.image,
-                                            size: 55,
+                                                        queryWithWhat: 'pdf',
+                                                        pdfPath:
+                                                            outPut['Filepath'],
+                                                        pdfExtract: outPut[
+                                                            'Extractedstring'],
+                                                      ),
+                                                    ),
+                                                  );
+                                                }
+                                              }
+                                            },
+                                            icon: const Icon(
+                                              Icons.picture_as_pdf,
+                                              size: 55,
+                                            ),
                                           ),
-                                        )
-                                      ],
-                                    ),
-                                    const Row(
-                                      mainAxisAlignment:
-                                          MainAxisAlignment.spaceAround,
-                                      children: [
-                                        Text('PDF'),
-                                        Text('Image'),
-                                      ],
-                                    ),
-                                  ],
-                                ),
-                              )
-                            ],
-                          );
-                        });
+                                          IconButton(
+                                            onPressed: () async {
+                                              File? imgFile =
+                                                  await RepoWithMedia()
+                                                      .imagePicker();
+                                              if (imgFile != null) {
+                                                Navigator.push(
+                                                    context,
+                                                    MaterialPageRoute(
+                                                        builder: (context) =>
+                                                            MediaPage(
+                                                              queryWithWhat:
+                                                                  'image',
+                                                              imgFile: imgFile,
+                                                            )));
+                                              }
+                                            },
+                                            icon: const Icon(
+                                              Icons.image,
+                                              size: 55,
+                                            ),
+                                          )
+                                        ],
+                                      ),
+                                      const Row(
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.spaceAround,
+                                        children: [
+                                          Text('PDF'),
+                                          Text('Image'),
+                                        ],
+                                      ),
+                                    ],
+                                  ),
+                                )
+                              ],
+                            );
+                          });
+                    }
                   },
                   icon: const Icon(
                     Icons.perm_media,
