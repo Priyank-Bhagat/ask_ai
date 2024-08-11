@@ -1,4 +1,3 @@
-
 <p align="center">
     <img src="https://github.com/Priyank-Bhagat/ask_ai/assets/115228605/11639ca4-ba1f-45fd-a9d7-092a3cc06e24" alt="something was here🤔">
 </p>
