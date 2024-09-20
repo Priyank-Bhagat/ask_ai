@@ -13,7 +13,7 @@ Ask Ai is an AI🤖-powered app that provides instant answers to your 💬questi
     <img width="200" src="https://github.com/Priyank-Bhagat/ask_ai/assets/115228605/6c192dfd-b747-4ed8-b1d8-e51955e13e1c" alt="something was here🤔">
     <img width="200" src="https://github.com/Priyank-Bhagat/ask_ai/assets/115228605/70abbef3-2954-47ba-ae43-d9c9e48954b8" alt="something was here🤔">
 </p>
-
+ 
 ## Download
 
 Just ask your query to the ai,
